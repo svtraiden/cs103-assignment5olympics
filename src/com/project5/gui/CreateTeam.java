@@ -31,6 +31,9 @@ public class CreateTeam {
 	private JTextField txtLastName;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private CurlerPosition currentPosition;
+	private JRadioButton rdbtnThrower;
+	private JRadioButton rdbtnSweeper;
+	private JRadioButton rdbtnSkip;
 
 	/**
 	 * Launch the application.
@@ -117,7 +120,7 @@ public class CreateTeam {
 		lblCountry.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panTextFields.add(lblCountry);
 		
-		txtCountry = new JTextField(JOptionPane.showInputDialog(txtCountry,"Please enter \nTeam Country name","Teacher's Name", JOptionPane.PLAIN_MESSAGE));
+		txtCountry = new JTextField(JOptionPane.showInputDialog(window,"Please enter \nTeam Country name","Teacher's Name", JOptionPane.PLAIN_MESSAGE));
 		panTextFields.add(txtCountry);
 		txtCountry.setColumns(15);
 		txtCountry.setEditable(false);
@@ -148,17 +151,17 @@ public class CreateTeam {
 		groupPosition.setBorder(new TitledBorder(null, "Position", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panRadioBtns.add(groupPosition);
 		
-		JRadioButton rdbtnThrower = new JRadioButton("Thrower");
+		rdbtnThrower = new JRadioButton("Thrower");
 		rdbtnThrower.setActionCommand("thrower");
 		groupPosition.add(rdbtnThrower);
 		buttonGroup.add(rdbtnThrower);
 		
-		JRadioButton rdbtnSweeper = new JRadioButton("Sweeper");
+		rdbtnSweeper = new JRadioButton("Sweeper");
 		rdbtnSweeper.setActionCommand("sweeper");
 		groupPosition.add(rdbtnSweeper);
 		buttonGroup.add(rdbtnSweeper);
 		
-		JRadioButton rdbtnSkip = new JRadioButton("Skip");
+		rdbtnSkip = new JRadioButton("Skip");
 		rdbtnSkip.setActionCommand("skip");
 		groupPosition.add(rdbtnSkip);
 		buttonGroup.add(rdbtnSkip);
@@ -176,24 +179,33 @@ public class CreateTeam {
 		
 	}
 	
+	/**
+	 * SubClass for action listeners of the buttons
+	 * 
+	 * @author Svetoslav Kostadinov
+	 *
+	 *
+	 */
 	private class ButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch (e.getActionCommand()) {
 			case "addPlayer":
-				String message = CurlerTeam.addPlayer(txtFirstName.getText(), txtLastName.getText(), currentPosition);
-				if (message != null) 
-				JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
-				//System.out.println(message);
-				//System.out.println(CurlerTeam.getNumPlayers());
+				if(!txtFirstName.getText().equals("")&&!txtLastName.getText().equals("")&&(rdbtnThrower.isSelected()||rdbtnSweeper.isSelected()||rdbtnSkip.isSelected())) {
+					String message = CurlerTeam.addPlayer(txtFirstName.getText(), txtLastName.getText(), currentPosition);
+					if (message != null) 
+						JOptionPane.showMessageDialog(window, message, "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+					JOptionPane.showMessageDialog(window, "Please fill all necessary fields", "Error", JOptionPane.WARNING_MESSAGE);
 				break;
 			case "newTeam":
 				txtCountry.setText(JOptionPane.showInputDialog(txtCountry,"Please enter \nTeam Country name", "Country's name", JOptionPane.PLAIN_MESSAGE));
 				CurlerTeam.createTeam(txtCountry.getText());
 				break;
 			case "printTeam":
-				JOptionPane.showMessageDialog(null, CurlerTeam.printTeam() , CurlerTeam.getTeamName(), JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(window, CurlerTeam.printTeam() , CurlerTeam.getTeamName(), JOptionPane.PLAIN_MESSAGE);
 				
 				/*CurlerTeam print = new CurlerTeam(txtCountry.getText());
 				print.printTeam();*/
@@ -206,6 +218,11 @@ public class CreateTeam {
 		
 	}
 	
+	/**
+	 * Subclass for the action listeners of the radio buttons
+	 * @author Svetoslav Kostadinov
+	 *
+	 */
 	private class RadioButtonListener implements ActionListener {
 
 		@Override

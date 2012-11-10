@@ -28,27 +28,35 @@ public class CurlerTeam {
 		return currentNumPlayers;
 	}
 	
-	public static String addPlayer(String fName, String lName, CurlerPosition position) {
+	/**
+	 * This Method adds player after validation
+	 * 
+	 * @param fName
+	 * @param lName
+	 * @param currentPosition
+	 * @return String
+	 */
+	public static String addPlayer(String fName, String lName, CurlerPosition currentPosition) {
 		if (getNumPlayers()<4) {
-			switch (position) {
+			switch (currentPosition) {
 			case SKIP:
-				if(getNumberOfPlayersAtThePosition(position) < 1){
+				if(getNumberOfPlayersAtThePosition(currentPosition) < 1){
 					//CurlerPlayer addPlayer = new CurlerPlayer(fName, lName, position);
-					players.add(new CurlerPlayer(fName, lName, position));
+					players.add(new CurlerPlayer(fName, lName, currentPosition));
 					return null;
 				} else{
 					return "There is already a skip on this team\nPlayer not added";
 				}
 			case THROWER:
-				if(getNumberOfPlayersAtThePosition(position) < 1){
-					players.add(new CurlerPlayer(fName, lName, position));
+				if(getNumberOfPlayersAtThePosition(currentPosition) < 1){
+					players.add(new CurlerPlayer(fName, lName, currentPosition));
 					return null;
 				} else{
 					return "There is already a thrower on this team\nPlayer not added";
 				}
 			case SWEEPER:
-				if(getNumberOfPlayersAtThePosition(position) < 2){
-					players.add(new CurlerPlayer(fName, lName, position));
+				if(getNumberOfPlayersAtThePosition(currentPosition) < 2){
+					players.add(new CurlerPlayer(fName, lName, currentPosition));
 					return null;
 				} else{
 					return "There are already 2 sweepers on this team\nPlayer not added";
@@ -69,27 +77,35 @@ public class CurlerTeam {
 	}
 	
 	public static String printTeam(){
-		String teamPrint = "";
+		String teamPrint = getTeamName()+"\n" ;
 		for(CurlerPlayer player : players){
 			teamPrint = teamPrint + player.getFirstName() + " " + player.getLastName() + ": " + player.getPosition() + "\n";
 		}
 		return teamPrint;
 	}
 	
+	/**
+	 * getNumberOfPlayersAtThePosition
+	 * @param position
+	 * @return int
+	 * 
+	 * This Methos substitutes the three fields given by specification
+	 * numSweepers, numSkip and numThrowers
+	 */
 	public static int getNumberOfPlayersAtThePosition(CurlerPosition position) {
 		int playersAtThePosition = 0;
 		for (CurlerPlayer player : players) {
 			switch (position) {
 			case THROWER:
-				if(player.getPosition().equals(position))
+				if(player.getPosition().equals(CurlerPosition.THROWER))
 					playersAtThePosition++;
 				break;
 			case SWEEPER: 
-				if(player.getPosition().equals(position))
+				if(player.getPosition().equals(CurlerPosition.SWEEPER))
 					playersAtThePosition++;
 				break;
 			case SKIP: 
-				if(player.getPosition().equals(position))
+				if(player.getPosition().equals(CurlerPosition.SKIP))
 					playersAtThePosition++;
 				break;
 			default:
