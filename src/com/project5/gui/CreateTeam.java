@@ -184,8 +184,8 @@ public class CreateTeam {
 			case "addPlayer":
 				String message = CurlerTeam.addPlayer(txtFirstName.getText(), txtLastName.getText(), currentPosition);
 				if (message != null) 
-					JOptionPane.showInternalMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
-				
+				JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+				//System.out.println(message);
 				//System.out.println(CurlerTeam.getNumPlayers());
 				break;
 			case "newTeam":
